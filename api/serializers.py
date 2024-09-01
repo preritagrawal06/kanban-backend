@@ -1,7 +1,9 @@
+from typing import Any, Dict
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 from .models import Project, Column, Todo
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[UniqueValidator(queryset=get_user_model().objects.all())])
@@ -31,3 +33,16 @@ class TodoSerializer(serializers.ModelSerializer):
         model = Todo
         fields = ["id", "description", "columnId", "created_at", 'created_by']
         extra_kwargs = {"created_by": {"read_only": True}}
+        
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        
+        token["username"] = user.username
+        return token
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['username'] = self.user.username
+        return data

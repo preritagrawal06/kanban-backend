@@ -1,9 +1,13 @@
 from rest_framework import generics
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, TodoSerializer, ColumnSerializer, ProjectSerializer
+from .serializers import UserSerializer, TodoSerializer, ColumnSerializer, ProjectSerializer, CustomTokenObtainPairSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Project, Column, Todo
+from rest_framework_simplejwt.views import TokenObtainPairView
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+ 
 class CreateUserView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
