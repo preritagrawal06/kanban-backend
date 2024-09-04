@@ -31,7 +31,7 @@ class ColumnSerializer(serializers.ModelSerializer):
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields = ["id", "description", "columnId", "created_at", 'created_by']
+        fields = ["id", "description", "projectId", "created_at", 'created_by', 'column']
         extra_kwargs = {"created_by": {"read_only": True}}
         
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

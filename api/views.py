@@ -48,14 +48,22 @@ class ListCreateTodoView(generics.ListCreateAPIView):
     
     def get_queryset(self):
         user = self.request.user
-        column = self.request.columnId
-        return Todo.objects.filter(columnId=column, created_by=user)
+        project = self.request.query_params["projectId"]
+        return Todo.objects.filter(projectId=project, created_by=user)
     
     def perform_create(self, serializer):
         if serializer.is_valid():
             return serializer.save(created_by=self.request.user)
         else:
             print(serializer.error)
+
+class UpdateTodoView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TodoSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Todo.objects.filter(created_by=user)
     
     
 

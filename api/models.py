@@ -23,7 +23,8 @@ class Todo(models.Model):
     description = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todos")
     created_at = models.DateTimeField(auto_now_add=True)
-    columnId = models.ForeignKey(Column, on_delete=models.CASCADE, related_name="todos")
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="todos", default=1)
+    column  = models.CharField(max_length=20, default="todo")
     
     def __str__(self) -> str:
         return self.description
