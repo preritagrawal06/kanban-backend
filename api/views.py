@@ -27,6 +27,13 @@ class ListCreateProjectView(generics.ListCreateAPIView): # lists or create proje
         else:
             print(serializer.error)
             
+class DestroyProjectView(generics.DestroyAPIView):
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return Project.objects.filter(created_by=self.request.user)
+            
 class ListCreateColumnView(generics.ListCreateAPIView):
     serializer_class = ColumnSerializer
     permission_classes = [IsAuthenticated]
