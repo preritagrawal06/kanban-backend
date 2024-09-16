@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Project(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="projects")
     
@@ -10,8 +10,8 @@ class Project(models.Model):
         return self.name
 
 class Column(models.Model):
-    title = models.CharField(max_length=20, unique=True)
-    slug = models.CharField(max_length=20, unique=True)
+    title = models.CharField(max_length=20)
+    slug = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     projectId = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="columns")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="columns")
